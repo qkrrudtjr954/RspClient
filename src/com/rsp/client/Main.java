@@ -1,19 +1,51 @@
 package com.rsp.client;
 
-import java.io.DataInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.ConnectException;
 import java.net.Socket;
+import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
+        User user = new User();
+        Socket socket = null;
+        String serverIP = "127.0.0.1";
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("age: ");
+        user.setAge(scanner.nextInt());
+        System.out.print("name: ");
+        user.setName(scanner.next());
+        System.out.print("rsp: ");
+        user.setRsp(scanner.nextInt());
+
+        System.out.println(String.format("name: %s, age: %d, rsp: %s", user.getName(), user.getAge(), user.getRsp()));
+
         try{
-            String serverIP = "127.0.0.1";
             System.out.println(String.format("Connecting to server ( %s ) ...", serverIP));
 
-            Socket socket = new Socket(serverIP, 5000);
+            socket = new Socket(serverIP, 5000);
+
+            //소켓의 출력스트림을 얻는다.
+            OutputStream out = socket.getOutputStream();
+            DataOutputStream dos = new DataOutputStream(out);
+            dos.write(user.getRsp());
+            dos.writeUTF(user.getName());
+            dos.write(user.getAge());
+
+            dos.close();
+            socket.close();
+        }catch (ConnectException ex){
+            ex.printStackTrace();
+        }catch (IOException ex){
+            ex.printStackTrace();
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+
+        try{
+            socket = new Socket(serverIP, 5000);
 
             //소켓의 입력스트림을 얻는다.
             InputStream in = socket.getInputStream();
