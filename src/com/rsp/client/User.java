@@ -2,21 +2,8 @@ package com.rsp.client;
 
 public class User {
     int age;
-    int rsp;
-
-    public int getRsp() {
-        return rsp;
-    }
-
-    public void setRsp(int rsp) {
-        this.rsp = rsp;
-    }
-
     String name;
-
-    public User() {
-
-    }
+    int Rsp;
 
     public int getAge() {
         return age;
@@ -34,7 +21,16 @@ public class User {
         this.name = name;
     }
 
-    public String toString(){
-        return this.name;
+    public int getRsp() {
+        return Rsp;
+    }
+
+    public void setRsp(int rsp) {
+        Rsp = rsp;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }
